@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Bank Account Operations</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f7fa;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    h1 {
+        color: #2c3e50;
+    }
+
+    .button-group {
+        margin-top: 20px;
+    }
+
+    .action-button {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        font-size: 16px;
+        background-color: #3498db;
+        color: white;
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+    .action-button:hover {
+        background-color: #2980b9;
+    }
+
+    .back-button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 15px;
+        font-size: 16px;
+        background-color: #2ecc71;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: 0.3s;
+    }
+
+    .back-button:hover {
+        background-color: #27ae60;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Bank Account Operations</h1>
+  <div class="button-group">
+    <form th:action="@{/api/transaction/deposit}" method="get">
+      <button type="submit" class="action-button">Deposit</button>
+    </form>
+    <form th:action="@{/api/transaction/withdraw}" method="get">
+      <button type="submit" class="action-button">Withdraw</button>
+    </form>
+    <form th:action="@{/api/transaction/transfer}" method="get">
+      <button type="submit" class="action-button">Transfer</button>
+    </form>
+    <form th:action="@{/api/transaction/archive}" method="get">
+      <button type="submit" class="action-button">Account turnover</button>
+    </form>
+    <form th:action="@{/api/transaction/transactionTracking}" method="get">
+      <button type="submit" class="action-button">Account tracking</button>
+    </form>
+  </div>
+  <a href="/api" class="back-button">Back to Home</a>
+</div>
+</body>
+</html>

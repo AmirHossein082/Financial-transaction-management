@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw transaction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #34495e;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        button, .action-button, .back-button {
+            padding: 12px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+            margin-bottom: 10px; /* Added margin to separate buttons */
+            text-align: center;
+        }
+
+        button:hover, .action-button:hover {
+            background-color: #2980b9;
+        }
+
+        .back-button {
+            background-color: #2ecc71;
+        }
+
+        .back-button:hover {
+            background-color: #27ae60;
+        }
+
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h2>Enter Account Number</h2>
+    <form action="#" th:action="@{/api/transaction/withdraw}" th:object="${transaction}" method="post">
+        <div class="form-group">
+            <label for="originatingAccountNumber">Originating Account Number:</label>
+            <input type="text" id="originatingAccountNumber" th:field="*{originatingAccountNumber}" />
+        </div>
+        <div class="form-group">
+            <label for="amount">Amount:</label>
+            <input type="text" id="amount" th:field="*{amount}" />
+        </div>
+        <button type="submit" class="action-button">Submit</button>
+        <button type="reset" class="action-button">Reset</button>
+    </form>
+    <a href="/api/transaction" class="back-button">Back to Transaction Menu</a>
+</div>
+</body>
+</html>

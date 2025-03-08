@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Account Turnover</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f7fa;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        flex-direction: column;
+    }
+
+    .container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 800px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    h1, h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
+
+    form {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    label {
+        width: 48%;
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        font-size: 14px;
+        color: #34495e;
+    }
+
+    input, select {
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-top: 5px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    button:hover {
+        background-color: #2980b9;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #3498db;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .pagination {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .pagination a {
+        text-decoration: none;
+        background-color: #2ecc71;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: 0.3s;
+    }
+
+    .pagination a:hover {
+        background-color: #27ae60;
+    }
+    .container {
+        text-align: center;
+        }
+        .back-button {
+        display: inline-block;
+        padding: 12px 20px;
+        font-size: 16px;
+        background-color: #2ecc71;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: 0.3s;
+    }
+
+    .back-button:hover {
+        background-color: #27ae60;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Filter Transactions</h1>
+  <form action="/api/transaction/archive" method="get">
+    <label>Originating Account Number:
+      <input type="text" name="originatingAccountNumber" th:value="${originatingAccountNumber}">
+    </label>
+    <label>Destination Account Number:
+      <input type="text" name="destinationAccountNumber" th:value="${destinationAccountNumber}">
+    </label>
+    <label>Type:
+      <select name="type">
+        <option value="">All</option>
+        <option value="WITHDRAW" th:selected="${type == 'WITHDRAW'}">Withdraw</option>
+        <option value="FEE_WITHDRAW" th:selected="${type == 'FEE_WITHDRAW'}">Fee Withdraw</option>
+        <option value="DEPOSIT" th:selected="${type == 'DEPOSIT'}">Deposit</option>
+        <option value="TRANSFER" th:selected="${type == 'TRANSFER'}">Transfer</option>
+      </select>
+    </label>
+    <label>Amount:
+      <input type="text" name="amount" th:value="${amount}">
+    </label>
+    <label>Start Date:
+      <input type="date" name="startDate" th:value="${startDate}" pattern="\d{4}-\d{2}-\d{20}">
+    </label>
+    <label>End Date:
+      <input type="date" name="endDate" th:value="${endDate}" pattern="\d{4}-\d{2}-\d{2}">
+    </label>
+    <label>Page:
+      <input type="number" name="page" th:value="${page}" min="0">
+    </label>
+    <label>Size:
+      <input type="number" name="size" th:value="${size}" min="1">
+    </label>
+    <button type="submit">Search</button>
+  </form>
+
+  <h2>Transaction List</h2>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Originating Account</th>
+      <th>Destination Account</th>
+      <th>Type</th>
+      <th>Date</th>
+      <th>Amount</th>
+    </tr>
+    <tr th:each="transaction : ${transaction}">
+      <td th:text="${transaction.getId()}"></td>
+      <td th:text="${transaction.originatingAccountNumber}"></td>
+      <td th:text="${transaction.destinationAccountNumber}"></td>
+      <td th:text="${transaction.type}"></td>
+      <td th:text="${transaction.date}"></td>
+      <td th:text="${transaction.amount}"></td>
+    </tr>
+  </table>
+
+  <div class="pagination">
+    <a th:if="${page > 0}" th:href="@{/api/transaction/archive(originatingAccountNumber=${originatingAccountNumber},destinationAccountNumber=${destinationAccountNumber},type=${type},amount=${amount},startDate=${startDate},endDate=${endDate},page=${page-1},size=${size})}">
+      Previous
+    </a>
+    <a th:if="${page < totalPages - 1}" th:href="@{/api/transaction/archive(originatingAccountNumber=${originatingAccountNumber},destinationAccountNumber=${destinationAccountNumber},type=${type},amount=${amount},startDate=${startDate},endDate=${endDate},page=${page+1},size=${size})}">
+      Next
+    </a>
+  </div>
+</div>
+<a href="/api/transaction" class="back-button">Back to transaction menu</a>
+</body>
+</html>
